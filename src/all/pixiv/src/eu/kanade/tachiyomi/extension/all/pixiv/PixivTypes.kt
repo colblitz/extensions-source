@@ -4,6 +4,11 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
+/**
+ * Exception thrown when Pixiv API returns an error response.
+ */
+internal class PixivApiException(message: String? = null) : Exception(message, null)
+
 @Serializable
 internal data class PixivApiResponse(
     val error: Boolean = false,
