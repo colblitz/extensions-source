@@ -18,10 +18,10 @@ internal class PixivFilters : MutableList<Filter<*>> by mutableListOf() {
     private val typeFilter = object : Filter.Select<String>("Type", TYPE_VALUES, 2) {}.also(::add)
     private val tagsFilter = object : Filter.Text("Tags") {}.also(::add)
     private val tagsModeFilter = object : Filter.Select<String>("Tags mode", TAGS_MODE_VALUES, 0) {}.also(::add)
-    private val usersFilter = object : Filter.Text("Users") {}.also(::add)
+    private val userFilter = object : Filter.Text("User (ID or username)") {}.also(::add)
     private val ratingFilter = object : Filter.Select<String>("Rating", RATING_VALUES, 0) {}.also(::add)
 
-    init { add(Filter.Header("(the following are ignored when the users filter is in use)")) }
+    init { add(Filter.Header("(the following are ignored when the user filter is in use)")) }
 
     private val orderFilter = object : Filter.Sort("Order", arrayOf("Date posted")) {}.also(::add)
     private val dateBeforeFilter = object : Filter.Text("Posted before") {}.also(::add)
@@ -43,14 +43,7 @@ internal class PixivFilters : MutableList<Filter<*>> by mutableListOf() {
         }
     }
 
-    val users: String by usersFilter::state
-
-    fun makeUsersPredicate(): ((PixivIllust) -> Boolean)? {
-        val users = users.ifBlank { return null }
-        val regex = Regex(users.split(' ').joinToString("|") { Regex.escape(it) })
-
-        return { it.author_details?.user_name?.contains(regex) == true }
-    }
+    val user: String by userFilter::state
 
     val rating: String? get() = RATING_PARAMS[ratingFilter.state]
     fun makeRatingPredicate() = RATING_PREDICATES[ratingFilter.state]

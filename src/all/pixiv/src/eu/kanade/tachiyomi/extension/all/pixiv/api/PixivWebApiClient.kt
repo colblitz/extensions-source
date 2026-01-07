@@ -222,11 +222,10 @@ class PixivWebApiClient(
 
                 predicates = buildList {
                     pixivFilters.makeTagsPredicate()?.let(::add)
-                    pixivFilters.makeUsersPredicate()?.let(::add)
                 }
-            } else if (pixivFilters.users.isNotBlank()) {
+            } else if (pixivFilters.user.isNotBlank()) {
                 searchSequence = makeUserIllustSearchSequence(
-                    nick = pixivFilters.users,
+                    nick = pixivFilters.user,
                     type = pixivFilters.type,
                 )
 

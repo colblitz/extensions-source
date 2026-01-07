@@ -14,6 +14,11 @@ import okhttp3.Request
 import okhttp3.Response
 import uy.kohesive.injekt.injectLazy
 
+/**
+ * Exception thrown when Pixiv API returns an error response.
+ */
+internal class PixivApiException(message: String? = null) : Exception(message, null)
+
 class Pixiv(override val lang: String) : HttpSource() {
     override val name = "Pixiv"
     override val baseUrl = "https://www.pixiv.net"
